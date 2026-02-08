@@ -1,7 +1,6 @@
-import OpenAI from "openai";
 import { NextRequest, NextResponse } from "next/server";
 
-// Function for rule-based fallback responses
+// Rule-based chatbot response function
 function getRuleBasedResponse(message: string): string {
     const userMessage = message.toLowerCase();
 
@@ -50,7 +49,7 @@ function getRuleBasedResponse(message: string): string {
         return isTelugu
             ? "Namaskaram! Maa daggara 3 rakala acharlu unnayi - Avakaya, Gongura, Nimmakaya. Kaaram levels, dharalu, leda sifarsu gurinchi adagandi! 🌶️"
             : "Hello! We have 3 types of pickles - Avakai, Gongura, and Lemon. Ask me about spice levels, prices, or recommendations! 🌶️";
-    } else if (userMessage.includes("buy") || userMessage.includes("order") || userMessage.includes("purchase") || userMessage.includes("konali") || userMessage.includes("order")) {
+    } else if (userMessage.includes("buy") || userMessage.includes("order") || userMessage.includes("purchase") || userMessage.includes("konali")) {
         return isTelugu
             ? "Meeru maa website nundi order cheyochu! Cart lo add chesi checkout cheyandi. Free shipping ₹500 paina! 🛒"
             : "You can order directly from our website! Add to cart and checkout. Free shipping on orders above ₹500! 🛒";
@@ -82,11 +81,9 @@ function getRuleBasedResponse(message: string): string {
 }
 
 export async function POST(request: NextRequest) {
-    let message = "";
     try {
         const body = await request.json();
-        message = body.message;
-        const conversationHistory = body.conversationHistory;
+        const message = body.message;
 
         if (!message) {
             return NextResponse.json(
@@ -95,68 +92,14 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Check if OpenAI API key is configured
-        const apiKey = process.env.OPENAI_API_KEY;
-
-        if (!apiKey || apiKey === "your_openai_api_key_here") {
-            console.log("⚠️  No valid OpenAI API key, using RULE-BASED fallback chatbot");
-            const response = getRuleBasedResponse(message);
-            return NextResponse.json({ response, source: "rule-based" });
-        }
-
-        // Try OpenAI first
-        try {
-            console.log("🤖 Attempting OpenAI ChatGPT request...");
-            const openai = new OpenAI({ apiKey });
-
-            const systemPrompt = `You are a helpful pickle store assistant. Help customers choose pickles based on their spice preference. We have:
-1. Avakai (Very Spicy, ₹220-₹750)
-2. Gongura (Medium Spicy, ₹200-₹720)
-3. Lemon (Mild, ₹180-₹650)
-
-IMPORTANT: Respond in the same language as the user. 
-- If the user speaks in English, respond in English.
-- If the user speaks in Telugu (either Telugu script or romanized), respond in ROMANIZED TELUGU using ENGLISH LETTERS ONLY (e.g., "Namaskaram" not "నమస్కారం", "Meeku kaaram ishtama?" not "మీకు కారం ఇష్టమా?").
-Keep responses concise (2-3 sentences).`;
-
-            const messages: any[] = [{ role: "system", content: systemPrompt }];
-
-            if (conversationHistory && conversationHistory.length > 0) {
-                conversationHistory.slice(-4).forEach((msg: any) => {
-                    messages.push({
-                        role: msg.role === "assistant" ? "assistant" : "user",
-                        content: msg.content
-                    });
-                });
-            }
-
-            messages.push({ role: "user", content: message });
-
-            const completion = await openai.chat.completions.create({
-                model: "gpt-3.5-turbo",
-                messages: messages,
-                max_tokens: 150,
-                temperature: 0.7,
-            });
-
-            const responseText = completion.choices[0]?.message?.content;
-
-            if (responseText) {
-                console.log("✅ OpenAI ChatGPT response received successfully");
-                return NextResponse.json({ response: responseText, source: "openai" });
-            }
-        } catch (openaiError: any) {
-            console.error("❌ OpenAI failed, using RULE-BASED fallback:", openaiError.message);
-        }
-
-        // Fallback to rule-based
-        console.log("💬 Using RULE-BASED response");
+        // Get rule-based response
         const response = getRuleBasedResponse(message);
         return NextResponse.json({ response, source: "rule-based" });
 
     } catch (error: any) {
         console.error("❌ Chatbot Error:", error);
-        const fallbackResponse = getRuleBasedResponse(message || "hi");
+        // Fallback response for errors
+        const fallbackResponse = getRuleBasedResponse("help");
         return NextResponse.json({ response: fallbackResponse, source: "rule-based-error" });
     }
 }
