@@ -47,6 +47,10 @@ const ChatWidget: React.FC = () => {
                 })
             });
 
+            if (!response.ok) {
+                throw new Error(`API returned ${response.status}`);
+            }
+
             const data = await response.json();
 
             if (data.response) {
@@ -64,7 +68,7 @@ const ChatWidget: React.FC = () => {
             console.error("Chat error:", error);
             setMessages((prev) => [
                 ...prev,
-                { role: "assistant", content: "Sorry, I'm having trouble connecting. Please try again!" }
+                { role: "assistant", content: "Ask me about our pickles, prices, spice levels, or sizes! For example: 'What pickles do you have?', 'I want spicy', 'What are the prices?' 😊" }
             ]);
         } finally {
             setIsLoading(false);
@@ -117,8 +121,8 @@ const ChatWidget: React.FC = () => {
                                 >
                                     <div
                                         className={`max-w-[80%] p-3 rounded-2xl ${msg.role === "user"
-                                                ? "bg-chili text-white rounded-br-none"
-                                                : "bg-white text-gray-900 rounded-bl-none shadow-md"
+                                            ? "bg-chili text-white rounded-br-none"
+                                            : "bg-white text-gray-900 rounded-bl-none shadow-md"
                                             }`}
                                     >
                                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
