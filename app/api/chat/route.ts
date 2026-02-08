@@ -54,8 +54,11 @@ function getRuleBasedResponse(message: string): string {
 }
 
 export async function POST(request: NextRequest) {
+    let message = "";
     try {
-        const { message, conversationHistory } = await request.json();
+        const body = await request.json();
+        message = body.message;
+        const conversationHistory = body.conversationHistory;
 
         if (!message) {
             return NextResponse.json(
