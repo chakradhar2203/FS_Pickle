@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: linear-gradient(135deg, #C62828 0%, #F9A825 100%);
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: var(--background);
+}
+
+::selection {
+  background-color: #C62828;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(198, 40, 40, 0.6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(198, 40, 40, 0.8);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Performance optimization: reduce layout thrashing during scroll */
+* {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
