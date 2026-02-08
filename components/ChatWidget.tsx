@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaComments, FaTimes, FaPaperPlane } from "react-icons/fa";
+import { getChatResponse } from "@/lib/chatbot";
 
 interface Message {
     role: "user" | "assistant";
@@ -29,7 +30,7 @@ const ChatWidget: React.FC = () => {
         scrollToBottom();
     }, [messages]);
 
-    const handleSend = async () => {
+    const handleSend = () => {
         if (!input.trim() || isLoading) return;
 
         const userMessage: Message = { role: "user", content: input };
@@ -37,42 +38,15 @@ const ChatWidget: React.FC = () => {
         setInput("");
         setIsLoading(true);
 
-        try {
-            const response = await fetch("/api/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    message: input,
-                    conversationHistory: messages
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`API returned ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            if (data.response) {
-                setMessages((prev) => [
-                    ...prev,
-                    { role: "assistant", content: data.response }
-                ]);
-            } else {
-                setMessages((prev) => [
-                    ...prev,
-                    { role: "assistant", content: "Sorry, I encountered an error. Please try again!" }
-                ]);
-            }
-        } catch (error) {
-            console.error("Chat error:", error);
+        // Simulate a small delay for better UX
+        setTimeout(() => {
+            const response = getChatResponse(input);
             setMessages((prev) => [
                 ...prev,
-                { role: "assistant", content: "Ask me about our pickles, prices, spice levels, or sizes! For example: 'What pickles do you have?', 'I want spicy', 'What are the prices?' 😊" }
+                { role: "assistant", content: response }
             ]);
-        } finally {
             setIsLoading(false);
-        }
+        }, 300);
     };
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
