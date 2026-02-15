@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Product, getProductsFromFirestore, saveProductToFirestore, deleteProductFromFirestore } from "@/lib/firestore";
 import { uploadProductImage } from "@/lib/storage";
 import { auth } from "@/lib/firebase";
@@ -296,7 +297,7 @@ export default function AdminPage() {
                 {products.map((p) => (
                     <div key={p.id} className="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden hover:border-gray-700 transition-all group">
                         <div className="h-48 bg-gray-800 relative">
-                            <img src={p.image} alt={p.name} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                            <Image src={p.image} alt={p.name} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                             <div className="absolute top-4 right-4">
                                 <button
                                     onClick={() => handleDelete(p.id)}

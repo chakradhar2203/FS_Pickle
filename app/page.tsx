@@ -252,7 +252,7 @@ export default function Home() {
                                     <span className="text-chili">బాగా చూసుకో!</span> The Glass Jar Secret
                                 </h3>
                                 <p className="text-lg text-gray-700 leading-relaxed">
-                                    In Andhra, we say <span className="font-semibold italic">"మంచి సీసా పెట్టె అంటే అర్ధం వాసన ఉండదు"</span> (a good glass jar means the flavor stays pure).
+                                    In Andhra, we say <span className="font-semibold italic">&quot;మంచి సీసా పెట్టె అంటే అర్ధం వాసన ఉండదు&quot;</span> (a good glass jar means the flavor stays pure).
                                     Our pickles rest in premium, spotless glass jars — <span className="font-semibold">manta seesa</span> (crystal clear glass) that locks in the <span className="font-semibold">kaaram</span> (spice) and keeps every bite as fresh as the day it was made.
                                     No plastic, no shortcuts — just the traditional Telugu way of preserving <span className="font-semibold">pachchadi</span> that our <span className="font-semibold">ammamma</span> taught us.
                                 </p>

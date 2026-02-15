@@ -126,7 +126,7 @@ function LoginForm() {
                     </button>
 
                     <p className="mt-8 text-center text-gray-500 text-sm">
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <button
                             onClick={handleGoogleSignIn}
                             className="text-orange-500 hover:underline font-semibold"
