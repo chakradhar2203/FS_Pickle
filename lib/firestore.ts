@@ -39,7 +39,7 @@ export interface Product {
     updatedAt?: any;
     // Legacy/optional properties for homepage display
     stats?: { label: string; val: string }[];
-    detailsSection?: { title: string; description: string; imageAlt?: string };
+    detailsSection?: { title: string; description: string; imageAlt: string };
     freshnessSection?: { title: string; description: string };
     buyNowSection?: {
         price: string;
