@@ -11,9 +11,44 @@ import {
     serverTimestamp,
     query,
     where,
+    orderBy,
     DocumentData
 } from "firebase/firestore";
 import { db } from "./firebase";
+
+export interface ProductSize {
+    label: string;
+    price: number;
+    weight: string;
+}
+
+export interface Product {
+    id: string;
+    name: string;
+    subName: string;
+    description: string;
+    longDescription: string;
+    image: string;
+    images: string[];
+    sizes: ProductSize[];
+    inStock: boolean;
+    category: string;
+    spiceLevel: number; // 1-5
+    features: string[];
+    ingredients: string[];
+    updatedAt?: any;
+    // Legacy/optional properties for homepage display
+    stats?: { label: string; val: string }[];
+    detailsSection?: { title: string; description: string; imageAlt?: string };
+    freshnessSection?: { title: string; description: string };
+    buyNowSection?: {
+        price: string;
+        unit: string;
+        processingParams: string[];
+        deliveryPromise: string;
+        returnPolicy: string;
+    };
+}
 
 export interface CartItem {
     productId: string;
@@ -153,4 +188,33 @@ export const updateItemQuantity = async (
             });
         }
     }
+};
+
+// --- Product Management ---
+
+// Get all products from Firestore
+export const getProductsFromFirestore = async (): Promise<Product[]> => {
+    const productsRef = collection(db, "products");
+    const q = query(productsRef, orderBy("updatedAt", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+    })) as Product[];
+};
+
+// Save or Update a product
+export const saveProductToFirestore = async (product: Partial<Product> & { id: string }): Promise<void> => {
+    const productRef = doc(db, "products", product.id);
+    await setDoc(productRef, {
+        ...product,
+        updatedAt: serverTimestamp()
+    }, { merge: true });
+};
+
+// Delete a product
+export const deleteProductFromFirestore = async (productId: string): Promise<void> => {
+    const productRef = doc(db, "products", productId);
+    await deleteDoc(productRef);
 };

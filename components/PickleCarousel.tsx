@@ -3,14 +3,15 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { products } from "@/data/products";
+import { Product } from "@/lib/firestore";
 import ProductCard from "./ProductCard";
 
 interface PickleCarouselProps {
     onLoginRequired?: () => void;
+    products: Product[];
 }
 
-const PickleCarousel: React.FC<PickleCarouselProps> = ({ onLoginRequired }) => {
+const PickleCarousel: React.FC<PickleCarouselProps> = ({ onLoginRequired, products }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const handlePrev = () => {
@@ -20,6 +21,11 @@ const PickleCarousel: React.FC<PickleCarouselProps> = ({ onLoginRequired }) => {
     const handleNext = () => {
         setCurrentIndex((prev) => (prev === products.length - 1 ? 0 : prev + 1));
     };
+
+    // Don't render anything if no products
+    if (!products || products.length === 0) {
+        return null;
+    }
 
     return (
         <div className="relative max-w-7xl mx-auto px-6 py-16">
