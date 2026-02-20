@@ -92,67 +92,94 @@ export default function Home() {
 
             {/* Hero Section — only show when heroProduct exists */}
             {heroProduct && (
-                <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-chili/10 via-turmeric/10 to-sesame/10 pt-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, ease: "easeOut" }}
-                        className="text-center px-6 max-w-5xl"
-                    >
-                        <h1 className="text-7xl md:text-9xl font-bold mb-6 bg-gradient-to-r from-chili via-chili-dark to-turmeric bg-clip-text text-transparent leading-tight">
-                            Andhra Pickles
-                        </h1>
-                        <p className="text-3xl md:text-5xl text-gray-700 font-light mb-8">
-                            Tradition. Authenticity. Flavor.
-                        </p>
-                        <p className="text-xl md:text-2xl text-gray-600 mb-12">
-                            Handcrafted with heritage recipes and premium ingredients
-                        </p>
+                <section className="min-h-screen flex items-center bg-gradient-to-br from-chili/10 via-turmeric/10 to-sesame/10 pt-20">
+                    <div className="w-full max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
 
-                        <div className="flex flex-wrap justify-center gap-8 mb-16">
-                            {heroProduct.stats?.map((stat, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.3 + idx * 0.1, duration: 0.5 }}
-                                    className="text-center"
-                                >
-                                    <div className="text-4xl font-bold text-chili mb-2">
-                                        {stat.val}
-                                    </div>
-                                    <div className="text-sm text-gray-600 uppercase tracking-wider">
-                                        {stat.label}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        <motion.a
-                            href="#heroProducts"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 1, duration: 1 }}
-                            className="inline-block text-gray-500 hover:text-chili transition-colors"
+                        {/* Left — Image */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -60 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 1, ease: "easeOut" }}
+                            className="flex justify-center"
                         >
-                            <div className="flex flex-col items-center gap-2">
-                                <span className="text-sm uppercase tracking-widest">Scroll to Explore</span>
-                                <svg
-                                    className="w-6 h-6 animate-bounce"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                                    />
-                                </svg>
+                            <motion.div
+                                animate={{ y: [0, -16, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                className="relative w-72 h-72 md:w-[420px] md:h-[420px] drop-shadow-2xl"
+                            >
+                                <Image
+                                    src="/TransparentLandingPage.png"
+                                    alt="Andhra Pickle Jar"
+                                    fill
+                                    className="object-contain mix-blend-multiply"
+                                    priority
+                                />
+                            </motion.div>
+                        </motion.div>
+
+                        {/* Right — Text Content */}
+                        <motion.div
+                            initial={{ opacity: 0, x: 60 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 1, ease: "easeOut" }}
+                            className="flex flex-col items-start"
+                        >
+                            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-chili via-chili-dark to-turmeric bg-clip-text text-transparent leading-tight">
+                                Buy Authentic<br />Andhra Pickles<br />
+                                <span className="text-4xl md:text-5xl">Online</span>
+                            </h1>
+                            <p className="text-xl md:text-3xl text-gray-700 font-light mb-6">
+                                Homemade & Traditional — Straight from Andhra kitchens.
+                            </p>
+                            <p className="text-base md:text-lg text-gray-600 mb-10">
+                                Handpicked raw mangoes, stone-ground spices, and generations of Telugu know-how — packed fresh into every jar.
+                            </p>
+
+                            <div className="flex flex-wrap gap-8 mb-12">
+                                {heroProduct.stats?.map((stat, idx) => (
+                                    <motion.div
+                                        key={idx}
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: 0.3 + idx * 0.1, duration: 0.5 }}
+                                        className="text-center"
+                                    >
+                                        <div className="text-4xl font-bold text-chili mb-1">
+                                            {stat.val}
+                                        </div>
+                                        <div className="text-sm text-gray-600 uppercase tracking-wider">
+                                            {stat.label}
+                                        </div>
+                                    </motion.div>
+                                ))}
                             </div>
-                        </motion.a>
-                    </motion.div>
+
+                            <motion.a
+                                href="#heroProducts"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1, duration: 1 }}
+                                className="inline-block text-gray-500 hover:text-chili transition-colors"
+                            >
+                                <div className="flex flex-col items-center gap-2">
+                                    <span className="text-sm uppercase tracking-widest">Scroll to Explore</span>
+                                    <svg
+                                        className="w-6 h-6 animate-bounce"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                                        />
+                                    </svg>
+                                </div>
+                            </motion.a>
+                        </motion.div>
+                    </div>
                 </section>
             )}
 
@@ -398,23 +425,75 @@ export default function Home() {
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="py-32 px-6 bg-gradient-to-br from-chili via-chili-dark to-turmeric text-white text-center"
+                className="py-24 px-6 bg-gradient-to-br from-chili via-chili-dark to-turmeric text-white text-center"
             >
-                <h2 className="text-6xl md:text-8xl font-bold mb-8">
+                <h2 className="text-6xl md:text-8xl font-bold mb-6">
                     Bring Andhra Home
                 </h2>
-                <p className="text-2xl md:text-3xl font-light mb-12 max-w-3xl mx-auto">
+                <p className="text-lg md:text-xl font-light mb-16 max-w-2xl mx-auto opacity-90">
                     Experience the authentic taste of tradition. Every jar tells a story.
                 </p>
-                <motion.a
-                    href="#buy-now"
-                    whileHover={{ scale: 1.1, rotate: -2 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="inline-block px-12 py-6 bg-white text-chili text-xl font-bold rounded-full shadow-2xl hover:shadow-white/30 transition-all"
-                >
-                    Order Now
-                </motion.a>
+
+                {/* Trust Badges */}
+                <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
+                    {[
+                        {
+                            icon: "/secure_packing.png",
+                            title: "Secure Packing",
+                            desc: "Every jar is bubble-wrapped and sealed to reach you intact.",
+                        },
+                        {
+                            icon: "/fast_delivery.png",
+                            title: "Fast Delivery",
+                            desc: "Shipped within 24 hours, delivered pan-India in 3–5 days.",
+                        },
+                        {
+                            icon: "/card_pymt.png",
+                            title: "Secure Payments",
+                            desc: "100% safe checkout with UPI, cards, and net banking.",
+                        },
+                    ].map((badge, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.15, duration: 0.5 }}
+                            viewport={{ once: true }}
+                            className="flex flex-col items-center bg-white/15 backdrop-blur-sm rounded-2xl px-8 py-8 w-64 shadow-lg hover:bg-white/25 transition-all duration-300"
+                        >
+                            <div className="relative w-16 h-16 mb-4">
+                                <Image
+                                    src={badge.icon}
+                                    alt={badge.title}
+                                    fill
+                                    className="object-contain"
+                                />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2">{badge.title}</h3>
+                            <p className="text-sm opacity-85 leading-relaxed">{badge.desc}</p>
+                        </motion.div>
+                    ))}
+                </div>
             </motion.section>
+
+            {/* Heritage Image Section - Before Footer */}
+            <section className="relative w-full">
+                {/* Smooth blur overlay from CTA section - lighter version */}
+                <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/60 via-white/30 to-transparent z-10"></div>
+
+                <div className="relative w-full h-[500px] overflow-hidden">
+                    <Image
+                        src="/image.png"
+                        alt="Traditional Pickle Making Heritage"
+                        fill
+                        className="object-cover object-center"
+                        style={{ objectPosition: '50% 30%' }}
+                    />
+                </div>
+
+                {/* Shining Green Gradient Strip */}
+                <div className="w-full h-3 bg-gradient-to-r from-green-400 via-green-500 to-green-400 animate-pulse shadow-lg shadow-green-500/50"></div>
+            </section>
 
             <Footer />
 

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
     HiOutlineHome,
@@ -8,52 +10,31 @@ import {
     HiOutlineUser,
     HiOutlineChatBubbleLeftRight
 } from "react-icons/hi2";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface MobileBottomSectionProps {
     onLoginClick?: () => void;
 }
 
 export default function MobileBottomSection({ onLoginClick }: MobileBottomSectionProps) {
+    const router = useRouter();
+    const { user } = useAuth();
+
     const sections = [
-        {
-            icon: HiOutlineHome,
-            label: "Home",
-            href: "#",
-            color: "text-chili"
-        },
-        {
-            icon: HiOutlineShoppingBag,
-            label: "Shop",
-            href: "#products",
-            color: "text-turmeric"
-        },
-        {
-            icon: HiOutlineHeart,
-            label: "Favorites",
-            href: "#",
-            color: "text-red-500",
-            requiresAuth: true
-        },
-        {
-            icon: HiOutlineChatBubbleLeftRight,
-            label: "Chat",
-            href: "#",
-            color: "text-green-600"
-        },
-        {
-            icon: HiOutlineUser,
-            label: "Account",
-            href: "#",
-            color: "text-gray-700",
-            requiresAuth: true
-        }
+        { icon: HiOutlineHome, label: "Home", href: "/", color: "text-chili" },
+        { icon: HiOutlineShoppingBag, label: "Shop", href: "/shop", color: "text-turmeric" },
+        { icon: HiOutlineHeart, label: "Favorites", href: "#", color: "text-red-500", requiresAuth: true },
+        { icon: HiOutlineChatBubbleLeftRight, label: "Chat", href: "#", color: "text-green-600" },
+        { icon: HiOutlineUser, label: "Account", href: "/profile", color: "text-gray-700", requiresAuth: true },
     ];
 
     const handleClick = (section: typeof sections[0]) => {
-        if (section.requiresAuth && onLoginClick) {
-            onLoginClick();
-        } else if (section.href) {
-            window.location.href = section.href;
+        if (section.requiresAuth && !user) {
+            // Not logged in → open login modal
+            onLoginClick?.();
+        } else {
+            // Logged in (or no auth required) → navigate
+            router.push(section.href);
         }
     };
 

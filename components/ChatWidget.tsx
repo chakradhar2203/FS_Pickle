@@ -63,7 +63,7 @@ const ChatWidget: React.FC = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-chili to-chili-dark text-white rounded-full shadow-2xl flex items-center justify-center"
+                className="fixed bottom-24 md:bottom-6 right-6 z-50 w-16 h-16 bg-gradient-to-r from-chili to-chili-dark text-white rounded-full shadow-2xl flex items-center justify-center"
             >
                 {isOpen ? <FaTimes size={24} /> : <FaComments size={24} />}
             </motion.button>
@@ -75,7 +75,7 @@ const ChatWidget: React.FC = () => {
                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="fixed bottom-24 right-6 z-40 w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+                        className="fixed bottom-44 md:bottom-24 right-6 z-40 w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden"
                         style={{ maxWidth: "calc(100vw - 3rem)" }}
                     >
                         {/* Header */}

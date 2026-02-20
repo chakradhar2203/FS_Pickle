@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
 import Navbar from "@/components/Navbar";
 import PaymentMethods from "@/components/PaymentMethods";
+import { saveOrderToFirestore } from "@/lib/firestore";
 
 export default function CheckoutPage() {
     const router = useRouter();
@@ -95,6 +96,34 @@ export default function CheckoutPage() {
 
         // Generate order ID
         const orderId = `ORD${Date.now()}`;
+
+        // Save order to Firestore
+        await saveOrderToFirestore({
+            orderId,
+            userId: user!.uid,
+            items: items.map(i => ({
+                productId: i.productId,
+                name: i.name,
+                price: i.price,
+                quantity: i.quantity,
+                size: i.size,
+                image: i.image,
+            })),
+            subtotal,
+            tax,
+            shipping: SHIPPING_FEE,
+            total,
+            status: "processing",
+            address: {
+                name,
+                phone,
+                street: address,
+                city,
+                state,
+                pincode,
+            },
+            createdAt: null,
+        });
 
         // Clear cart and redirect to success page
         clearCart();

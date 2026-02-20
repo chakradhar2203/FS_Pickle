@@ -56,12 +56,20 @@ export default function AdminLayout({
                     <p className="text-gray-400 mb-6">
                         You don&apos;t have admin privileges. Only authorized administrators can access this page.
                     </p>
-                    <button
-                        onClick={() => router.push("/")}
-                        className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-xl font-semibold transition-all"
-                    >
-                        Go to Homepage
-                    </button>
+                    <div className="flex flex-col gap-3">
+                        <button
+                            onClick={() => router.push("/")}
+                            className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-xl font-semibold transition-all"
+                        >
+                            Go to Homepage
+                        </button>
+                        <button
+                            onClick={() => auth.signOut()}
+                            className="text-gray-400 hover:text-white text-sm transition-colors"
+                        >
+                            Sign Out and Switch Account
+                        </button>
+                    </div>
                 </div>
             </div>
         );

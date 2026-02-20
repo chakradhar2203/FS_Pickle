@@ -220,10 +220,26 @@ export default function AdminPage() {
                                         onChange={handleInputChange}
                                         className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
                                     >
-                                        <option>Mango Pickle</option>
-                                        <option>Leaf Pickle</option>
-                                        <option>Vegetable Pickle</option>
-                                        <option>Garlic Pickle</option>
+                                        <optgroup label="Pickles">
+                                            <option>Mango Pickle</option>
+                                            <option>Lemon Pickle</option>
+                                            <option>Tomato Pickle</option>
+                                            <option>Mixed Pickle</option>
+                                            <option>Garlic Pickle</option>
+                                            <option>Gongura Pickle</option>
+                                        </optgroup>
+                                        <optgroup label="Podis">
+                                            <option>Idli Podi</option>
+                                            <option>Dosa Podi</option>
+                                            <option>Curry Leaf Podi</option>
+                                            <option>Flaxseed Podi</option>
+                                        </optgroup>
+                                        <optgroup label="Snacks">
+                                            <option>Murukku</option>
+                                            <option>Mixture</option>
+                                            <option>Chegodilu</option>
+                                            <option>Chakli</option>
+                                        </optgroup>
                                     </select>
                                 </div>
                                 <div>
@@ -312,7 +328,7 @@ export default function AdminPage() {
                             <h4 className="text-lg font-bold text-white mt-1">{p.name}</h4>
                             <p className="text-gray-400 text-sm mt-2 line-clamp-2">{p.description}</p>
                             <div className="mt-4 flex justify-between items-center pt-4 border-t border-gray-800">
-                                <span className="text-white font-bold text-lg">₹{p.sizes[0].price}+</span>
+                                <span className="text-white font-bold text-lg">₹{p.sizes?.[0]?.price || 0}+</span>
                                 <span className="text-xs px-2 py-1 bg-gray-800 rounded-md text-gray-400">Spice Level: {p.spiceLevel}/5</span>
                             </div>
                         </div>

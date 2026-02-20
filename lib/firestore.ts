@@ -204,6 +204,18 @@ export const getProductsFromFirestore = async (): Promise<Product[]> => {
     })) as Product[];
 };
 
+// Get products by category
+export const getProductsByCategory = async (category: string): Promise<Product[]> => {
+    const productsRef = collection(db, "products");
+    const q = query(productsRef, where("category", "==", category), orderBy("updatedAt", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    return querySnapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+    })) as Product[];
+};
+
 // Save or Update a product
 export const saveProductToFirestore = async (product: Partial<Product> & { id: string }): Promise<void> => {
     const productRef = doc(db, "products", product.id);
@@ -218,3 +230,52 @@ export const deleteProductFromFirestore = async (productId: string): Promise<voi
     const productRef = doc(db, "products", productId);
     await deleteDoc(productRef);
 };
+
+// --- Order Management ---
+
+export interface OrderItem {
+    productId: string;
+    name: string;
+    price: number;
+    quantity: number;
+    size: string;
+    image: string;
+}
+
+export interface Order {
+    orderId: string;
+    userId: string;
+    items: OrderItem[];
+    subtotal: number;
+    tax: number;
+    shipping: number;
+    total: number;
+    status: "processing" | "shipped" | "delivered" | "cancelled";
+    address: {
+        name: string;
+        phone: string;
+        street: string;
+        city: string;
+        state: string;
+        pincode: string;
+    };
+    createdAt: any;
+}
+
+// Save a new order
+export const saveOrderToFirestore = async (order: Order): Promise<void> => {
+    const orderRef = doc(db, "orders", order.orderId);
+    await setDoc(orderRef, {
+        ...order,
+        createdAt: serverTimestamp(),
+    });
+};
+
+// Get all orders for a user
+export const getOrdersByUser = async (userId: string): Promise<Order[]> => {
+    const ordersRef = collection(db, "orders");
+    const q = query(ordersRef, where("userId", "==", userId), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(d => ({ ...d.data(), orderId: d.id })) as Order[];
+};
+

@@ -34,6 +34,14 @@ export default function ProductBottleScroll({
                 }
             };
 
+            img.onerror = () => {
+                console.error(`Failed to load frame: ${img.src}`);
+                loadedCount++; // Still increment to prevent getting stuck
+                if (loadedCount === totalFrames) {
+                    setImagesLoaded(true);
+                }
+            };
+
             loadedImages.push(img);
         }
 

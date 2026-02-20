@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaShoppingCart, FaUser, FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaSignOutAlt, FaBars, FaTimes, FaRegUser } from "react-icons/fa";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCart } from "@/contexts/CartContext";
 
@@ -24,13 +24,13 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
     };
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 h-[90px] backdrop-blur-xl bg-white/80 border-b border-gray-200/50">
-            <div className="max-w-7xl mx-auto px-6 h-full flex items-center">
-                {/* Logo */}
-                <Link href="/" className="flex items-center group mr-auto">
-                    <div className="relative w-[100px] h-[100px] mt-2 transition-transform group-hover:scale-110">
+        <nav className="fixed top-0 left-0 right-0 z-50 h-[90px] md:h-[110px] backdrop-blur-xl bg-white/80 border-b border-gray-200/50">
+            <div className="max-w-7xl mx-auto px-6 h-full flex items-center justify-center md:justify-between">
+                {/* Logo Container - Expanded for better centering */}
+                <Link href="/" className="flex items-center justify-center group h-full transition-all">
+                    <div className="relative w-[320px] sm:w-[500px] md:w-[650px] h-[120px] sm:h-[160px] md:h-[200px] mt-2 transition-transform group-hover:scale-105">
                         <Image
-                            src="/pic_logo_main_try.png"
+                            src="/rj_header.png"
                             alt="Andhra Avakai Logo"
                             fill
                             className="object-contain"
@@ -39,7 +39,7 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
                     </div>
                 </Link>
 
-                <div className="flex items-center gap-4">
+                <div className="hidden md:flex items-center gap-4">
                     {/* Cart Icon */}
                     <Link href="/cart" className="relative">
                         <motion.button
@@ -86,6 +86,14 @@ export default function Navbar({ onLoginClick, onRegisterClick }: NavbarProps) {
                                             </p>
                                             <p className="text-xs text-gray-500 truncate">{user.email}</p>
                                         </div>
+                                        <Link
+                                            href="/profile"
+                                            onClick={() => setShowUserMenu(false)}
+                                            className="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                                        >
+                                            <FaRegUser />
+                                            My Profile
+                                        </Link>
                                         <button
                                             onClick={handleLogout}
                                             className="w-full px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors flex items-center gap-2"
